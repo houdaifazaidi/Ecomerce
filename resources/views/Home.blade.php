@@ -1,6 +1,6 @@
 @extends('Master_page')
 
-@section('title', 'Home')
+@section('title', 'APEX - Matériel de Bureau et Fournitures')
 
 @section('content')
 
@@ -15,9 +15,16 @@
             }
 
             .home h1 {
-                font-size: 36px;
-                margin-bottom: 15px;
-                color: #2c3e50;
+                font-size: 48px;
+                margin-bottom: 10px;
+                color: #001f3f;
+            }
+
+            .home h2 {
+                font-size: 24px;
+                color: #7a8fa0;
+                margin-bottom: 20px;
+                font-weight: 400;
             }
 
             .home p {
@@ -34,24 +41,26 @@
             }
 
             .card {
-                background: #f5f6fa;
+                background: #f8f9fa;
+                border: 2px solid #e0e6ed;
                 width: 260px;
                 padding: 30px;
                 border-radius: 10px;
                 text-decoration: none;
                 color: #333;
-                transition: transform 0.3s, box-shadow 0.3s;
+                transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             }
 
             .card:hover {
                 transform: translateY(-8px);
                 box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+                border-color: #001f3f;
             }
 
             .card h2 {
                 margin-bottom: 10px;
-                color: #00a8ff;
+                color: #001f3f;
             }
 
             .card span {
@@ -61,20 +70,21 @@
             }
         </style>
 
-        <h1>Welcome to MyShop</h1>
-        <p>Your place for outdoor gear & home essentials</p>
+        <h1>APEX</h1>
+        <h2>Matériel de Bureau et Fournitures</h2>
+        <p>Découvrez notre sélection complète d'équipements de bureau et de fournitures de qualité</p>
 
         <div class="categories">
-            <a href="{{ url('/produits/hicking') }}" class="card">
-                <span>🥾</span>
-                <h2>Hiking</h2>
-                <p>Outdoor equipment for your adventures</p>
+            <a href="{{ url('/produits/fournitures') }}" class="card">
+                <span>✏️</span>
+                <h2>Fournitures</h2>
+                <p>Stylos, cahiers, agendas et accessoires</p>
             </a>
 
-            <a href="{{ url('/produits/electromenager') }}" class="card">
-                <span>🏠</span>
-                <h2>Electroménager</h2>
-                <p>Essential appliances for everyday life</p>
+            <a href="{{ url('/produits/mobilier') }}" class="card">
+                <span>🪑</span>
+                <h2>Mobilier</h2>
+                <p>Bureaux, chaises et rangements</p>
             </a>
         </div>
     </section>

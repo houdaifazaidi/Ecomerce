@@ -1,39 +1,58 @@
 <header class="navbar">
     <style>
         .navbar {
-            background: linear-gradient(90deg, #1e272e, #2f3640);
+            background: #ffffff;
             padding: 15px 8%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-bottom: 3px solid #001f3f;
         }
 
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-            color: #fff;
+        .logo-container {
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            letter-spacing: 1px;
+            transition: opacity 0.3s;
+        }
+
+        .logo-container:hover {
+            opacity: 0.8;
+        }
+
+        .logo-img {
+            height: 60px;
+            width: auto;
+            border-radius: 6px;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 30px;
         }
 
         .menu-links a {
-            color: #fff;
+            color: #001f3f;
             text-decoration: none;
-            margin-left: 25px;
-            font-weight: 500;
+            font-weight: 600;
             position: relative;
+            font-size: 14px;
         }
 
         .menu-links a::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 2px;
+            height: 3px;
             left: 0;
             bottom: -5px;
-            background: #00a8ff;
+            background: #001f3f;
             transition: 0.3s;
+        }
+
+        .menu-links a:hover {
+            color: #7a8fa0;
         }
 
         .menu-links a:hover::after {
@@ -41,12 +60,15 @@
         }
     </style>
 
-    <a href="{{ url('/') }}" class="logo">
-        🏔 MyShop
+    <a href="{{ url('/') }}" class="logo-container">
+        <img src="{{ asset('imgs/logo.png') }}" alt="APEX Logo" class="logo-img">
     </a>
 
     <nav class="menu-links">
-        <a href="{{ url('/produits/hicking') }}">Hiking</a>
-        <a href="{{ url('/produits/electromenager') }}">Electroménager</a>
+        <a href="{{ url('/') }}">Accueil</a>
+        <a href="{{ url('/produits/fournitures') }}">Fournitures</a>
+        <a href="{{ url('/produits/mobilier') }}">Mobilier</a>
+        <a href="{{ url('/a-propos') }}">À Propos</a>
+        <a href="{{ url('/contact') }}">Contact</a>
     </nav>
 </header>

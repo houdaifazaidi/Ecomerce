@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: #f5f6fa;
+            background-color: #f8f9fa;
             color: #333;
             min-height: 100vh;
             display: flex;
@@ -27,6 +27,11 @@
 
         h1 {
             margin-bottom: 20px;
+            color: #001f3f;
+        }
+
+        h2 {
+            color: #001f3f;
         }
 
         /* table (used in Produits) */
@@ -44,7 +49,7 @@
         }
 
         th {
-            background-color: #2c3e50;
+            background-color: #001f3f;
             color: #fff;
         }
 
@@ -55,6 +60,29 @@
         img {
             max-width: 90px;
             border-radius: 6px;
+        }
+
+        a {
+            color: #001f3f;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #7a8fa0;
+        }
+
+        button, .btn {
+            background-color: #001f3f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover, .btn:hover {
+            background-color: #7a8fa0;
         }
     </style>
 </head>
