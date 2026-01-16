@@ -97,11 +97,11 @@
             <div class="products-container">
                 @foreach ($products as $product)
                     <div class="product-card">
-                        <img src="{{ $product['image'] }}" alt="{{ $product['nom'] }}" class="product-img">
+                        <img src="{{ $product->image }}" alt="{{ $product->nom }}" class="product-img">
                         <div class="product-info">
-                            <h3>{{ $product['nom'] }}</h3>
-                            <p>{{ $product['description'] ?? '' }}</p>
-                            <div class="product-price">{{ $product['prix'] }} DH</div>
+                            <h3>{{ $product->nom }}</h3>
+                            <p>{{ $product->description ?? '' }}</p>
+                            <div class="product-price">{{ $product->prix }} DH</div>
                         </div>
                     </div>
                 @endforeach

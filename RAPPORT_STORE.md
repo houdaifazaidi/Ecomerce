@@ -179,8 +179,6 @@ APEX [LOGO] | Accueil | Fournitures | Mobilier | À Propos | Contact
 
 **Sections:**
 1. **Hero Banner** - Titre, tagline, description
-2. **Notre Histoire** - Fondation en 2014, croissance
-3. **Statistiques** - 10+ ans, 5K+ clients, 1000+ produits, 100% satisfaction
 4. **Notre Mission** - Approche B2B et B2C
 5. **Nos Valeurs** - 6 cartes (Excellence, Équité, Service, Rapidité, Responsabilité, Innovation)
 6. **Pourquoi Nous Choisir** - 4 points clés
