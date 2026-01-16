@@ -11,13 +11,13 @@
                 padding: 50px;
                 border-radius: 12px;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-                text-align: center;
             }
 
             .home h1 {
                 font-size: 48px;
                 margin-bottom: 10px;
                 color: #001f3f;
+                text-align: center;
             }
 
             .home h2 {
@@ -25,12 +25,14 @@
                 color: #7a8fa0;
                 margin-bottom: 20px;
                 font-weight: 400;
+                text-align: center;
             }
 
             .home p {
                 font-size: 18px;
                 color: #555;
                 margin-bottom: 40px;
+                text-align: center;
             }
 
             .categories {
@@ -38,6 +40,7 @@
                 justify-content: center;
                 gap: 30px;
                 flex-wrap: wrap;
+                margin-bottom: 50px;
             }
 
             .card {
@@ -50,6 +53,7 @@
                 color: #333;
                 transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                text-align: center;
             }
 
             .card:hover {
@@ -67,6 +71,123 @@
                 font-size: 40px;
                 display: block;
                 margin-bottom: 15px;
+            }
+
+            .products-section {
+                width: 100%;
+            }
+
+            .products-section h3 {
+                color: #001f3f;
+                margin-bottom: 30px;
+                margin-top: 30px;
+                font-size: 28px;
+            }
+
+            .products-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 25px;
+                margin-top: 20px;
+                padding: 20px 0;
+                width: 100%;
+            }
+
+            .product-card {
+                background: #ffffff;
+                border: 1px solid #e0e6ed;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+            }
+
+            .product-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 24px rgba(0,31,63,0.15);
+                border-color: #001f3f;
+            }
+
+            .product-img {
+                width: 100%;
+                height: 280px;
+                object-fit: cover;
+                background: #f8f9fa;
+                display: block;
+                max-width: 100%;
+            }
+
+            .product-info {
+                padding: 15px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .product-info h3 {
+                margin: 0 0 10px 0;
+                color: #001f3f;
+                font-size: 16px;
+            }
+
+            .product-info p {
+                margin: 0;
+                color: #666;
+                font-size: 13px;
+                flex: 1;
+            }
+
+            .product-price {
+                color: #001f3f;
+                font-size: 20px;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .no-products {
+                text-align: center;
+                padding: 40px;
+                background: #f8f9fa;
+                border-radius: 10px;
+                color: #666;
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 30px;
+                flex-wrap: wrap;
+            }
+
+            .pagination a, .pagination span {
+                padding: 8px 12px;
+                border: 1px solid #e0e6ed;
+                border-radius: 6px;
+                text-decoration: none;
+                color: #001f3f;
+                transition: all 0.3s;
+            }
+
+            .pagination a:hover {
+                background-color: #001f3f;
+                color: #ffffff;
+                border-color: #001f3f;
+            }
+
+            .pagination .active span {
+                background-color: #001f3f;
+                color: #ffffff;
+                border-color: #001f3f;
+            }
+
+            .pagination .disabled span {
+                color: #ccc;
+                cursor: not-allowed;
             }
         </style>
 
@@ -87,6 +208,30 @@
                 <p>Bureaux, chaises et rangements</p>
             </a>
         </div>
+
+
+        @if (count($products) > 0)
+            <div class="products-section">
+                <h3>Tous nos Produits</h3>
+                <div class="products-container">
+                    @foreach ($products as $product)
+                        <div class="product-card">
+                            <img src="{{ $product->image }}" alt="{{ $product->nom }}" class="product-img">
+                            <div class="product-info">
+                                <h3>{{ $product->nom }}</h3>
+                                <p>{{ $product->description ?? '' }}</p>
+                                <div class="product-price">{{ $product->prix }} DH</div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Pagination Links -->
+                <div class="pagination">
+                    {{ $products->links('vendor.pagination.custom') }}
+                </div>
+            </div>
+        @endif
     </section>
 
 @endsection

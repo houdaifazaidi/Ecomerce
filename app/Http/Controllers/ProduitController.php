@@ -19,5 +19,12 @@ class ProduitController extends Controller
         'categorie' => $cat
         ]);
 
+    }
+    public function getAllProduits(){
+    $products = Produit::paginate(4); 
+    
+    return view('Home', [
+        'products' => $products
+    ]);
 }
 }
