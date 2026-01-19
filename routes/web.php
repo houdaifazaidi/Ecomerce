@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\RProduitController;
 
 Route::get('/', [ProduitController::class, 'getAllProduits']);
 
@@ -19,3 +20,4 @@ Route::get('/contact', function () {
 });
 
 
+Route::resource('articles', RProduitController::class);

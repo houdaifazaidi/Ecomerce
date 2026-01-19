@@ -10,11 +10,11 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
+    {
         Schema::table('articles', function (Blueprint $table) {
-        $table->text('description')->after('nom');
-    });
-}
+            $table->text('description')->nullable()->after('nom');
+        });
+    }
 
     /**
      * Reverse the migrations.

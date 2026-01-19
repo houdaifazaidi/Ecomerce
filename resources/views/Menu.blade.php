@@ -68,6 +68,7 @@
         <a href="{{ url('/') }}">Accueil</a>
         <a href="{{ url('/produits/fournitures') }}">Fournitures</a>
         <a href="{{ url('/produits/mobilier') }}">Mobilier</a>
+        <a href="{{ route('articles.create') }}">Ajouter produit</a>
         <a href="{{ url('/a-propos') }}">À Propos</a>
         <a href="{{ url('/contact') }}">Contact</a>
     </nav>
