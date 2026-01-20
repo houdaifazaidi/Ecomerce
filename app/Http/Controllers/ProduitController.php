@@ -12,7 +12,7 @@ class ProduitController extends Controller
 
         $cat=$rq->route('cat');
 
-        $produits = Produit::where('categorie', '=', $cat)->get();
+        $produits = Produit::where('categorie', '=', $cat)->paginate(5);
 
         return view('Produits', [
         'products' => $produits,

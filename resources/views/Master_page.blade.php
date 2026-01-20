@@ -84,11 +84,70 @@
         button:hover, .btn:hover {
             background-color: #7a8fa0;
         }
+
+        /* Flash Messages */
+        .alert {
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            animation: slideInDown 0.3s ease;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: inherit;
+            opacity: 0.7;
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
 
     @include('Menu')
+
+    <!-- Flash Messages -->
+    @if (session('success'))
+        <div class="alert alert-success" id="successAlert">
+            <span class="alert-close" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-error" id="errorAlert">
+            <span class="alert-close" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{ session('error') }}
+        </div>
+    @endif
 
     <main>
         @yield('content')
