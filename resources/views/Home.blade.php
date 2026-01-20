@@ -189,6 +189,161 @@
                 color: #ccc;
                 cursor: not-allowed;
             }
+
+            .product-actions {
+                display: flex;
+                gap: 8px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                flex: 1;
+                padding: 8px 12px;
+                border: none;
+                border-radius: 6px;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: 500;
+                transition: all 0.3s;
+                min-width: 80px;
+                display: inline-block;
+            }
+
+            .btn-view {
+                background-color: #001f3f;
+                color: white;
+            }
+
+            .btn-view:hover {
+                background-color: #003d66;
+            }
+
+            .btn-edit {
+                background-color: #ffc107;
+                color: #000;
+            }
+
+            .btn-edit:hover {
+                background-color: #e0a800;
+            }
+
+            .btn-delete {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .btn-delete:hover {
+                background-color: #c82333;
+            }
+
+            /* Custom Confirmation Modal */
+            .delete-modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                animation: fadeIn 0.3s ease;
+            }
+
+            .delete-modal.show {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .modal-content {
+                background-color: #ffffff;
+                padding: 40px;
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                max-width: 400px;
+                width: 90%;
+                animation: slideUp 0.3s ease;
+            }
+
+            .modal-icon {
+                font-size: 48px;
+                text-align: center;
+                margin-bottom: 20px;
+                color: #dc3545;
+            }
+
+            .modal-title {
+                color: #001f3f;
+                font-size: 22px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+
+            .modal-text {
+                color: #555;
+                font-size: 16px;
+                text-align: center;
+                margin-bottom: 30px;
+                line-height: 1.5;
+            }
+
+            .modal-actions {
+                display: flex;
+                gap: 15px;
+            }
+
+            .modal-btn {
+                flex: 1;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 6px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            .modal-btn-cancel {
+                background-color: #6c757d;
+                color: white;
+            }
+
+            .modal-btn-cancel:hover {
+                background-color: #5a6268;
+            }
+
+            .modal-btn-confirm {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .modal-btn-confirm:hover {
+                background-color: #c82333;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes slideUp {
+                from {
+                    transform: translateY(50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
         </style>
 
         <h1>APEX</h1>
@@ -221,6 +376,23 @@
                                 <h3>{{ $product->nom }}</h3>
                                 <p>{{ $product->description ?? '' }}</p>
                                 <div class="product-price">{{ $product->prix }} DH</div>
+                                
+                                <!-- Action Buttons -->
+                                <div class="product-actions">
+                                    <a href="{{ route('articles.show', $product->id) }}" class="btn btn-view">
+                                        Voir
+                                    </a>
+                                    <a href="{{ route('articles.edit', $product->id) }}" class="btn btn-edit">
+                                        Modifier
+                                    </a>
+                                    <form id="deleteForm-{{ $product->id }}" action="{{ route('articles.destroy', $product->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-delete" onclick="showDeleteModal(event, {{ $product->id }});">
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -232,6 +404,53 @@
                 </div>
             </div>
         @endif
-    </section>
+
+        <!-- Custom Delete Confirmation Modal -->
+        <div id="deleteConfirmModal" class="delete-modal">
+            <div class="modal-content">
+                <div class="modal-icon">⚠️</div>
+                <div class="modal-title">Confirmer la suppression</div>
+                <div class="modal-text">
+                    Êtes-vous sûr de vouloir supprimer ce produit? Cette action est irréversible.
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal();">
+                        Annuler
+                    </button>
+                    <button class="modal-btn modal-btn-confirm" onclick="confirmDelete();">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let currentDeleteProductId = null;
+
+            function showDeleteModal(event, productId) {
+                event.preventDefault();
+                currentDeleteProductId = productId;
+                document.getElementById('deleteConfirmModal').classList.add('show');
+            }
+
+            function closeDeleteModal() {
+                document.getElementById('deleteConfirmModal').classList.remove('show');
+                currentDeleteProductId = null;
+            }
+
+            function confirmDelete() {
+                if (currentDeleteProductId !== null) {
+                    document.getElementById('deleteForm-' + currentDeleteProductId).submit();
+                }
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('deleteConfirmModal');
+                if (event.target === modal) {
+                    closeDeleteModal();
+                }
+            }
+        </script>    </section>
 
 @endsection

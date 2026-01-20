@@ -72,15 +72,17 @@ class RProduitController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Produit::findOrFail($id);
+        return view('showproduit', ['product' => $product]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
+    {    
+        $product = Produit::findOrFail($id);
+        return view('editproduit', ['product' => $product]);
     }
 
     /**
@@ -88,7 +90,40 @@ class RProduitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = Produit::findOrFail($id);
+        
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'prix' => 'required|numeric|min:0',
+            'categorie' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'solde' => 'nullable|integer|min:0|max:100',
+        ]);
+
+        try {
+            if ($request->hasFile('image')) {
+                $cloudinary = new Cloudinary([
+                    'cloud' => [
+                        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                        'api_key'    => env('CLOUDINARY_API_KEY'),
+                        'api_secret' => env('CLOUDINARY_API_SECRET'),
+                    ],
+                ]);
+
+                $result = $cloudinary->uploadApi()->upload(
+                    $request->file('image')->getRealPath(),
+                    ['folder' => 'produits']
+                );
+
+                $validated['image'] = $result['secure_url'];
+            }
+
+            $product->update($validated);
+            return redirect('/')->with('success', 'Produit mis à jour avec succès.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Erreur lors de la mise à jour: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -96,6 +131,12 @@ class RProduitController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $product = Produit::findOrFail($id);
+            $product->delete();
+            return redirect('/')->with('success', 'Produit supprimé avec succès.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Erreur lors de la suppression: ' . $e->getMessage()]);
+        }
     }
 }
