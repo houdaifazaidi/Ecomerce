@@ -125,9 +125,9 @@
         <h1>📧 Envoyer un Email</h1>
     </div>
 
-    <div class="alert-container">
+    {{-- <div class="alert-container">
         @include('incs.flash')
-    </div>
+    </div> --}}
 
     <div class="email-card">
         <form action="{{ route('send.email') }}" method="post">
