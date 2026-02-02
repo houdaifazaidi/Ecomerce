@@ -135,6 +135,7 @@
             @if (Auth::user()->role === 'admin')
                 <a href="{{ route('articles.create') }}">Ajouter Produit</a>
                 <a href="{{ route('articles.index') }}">Gestion Produits</a>
+                <a href="{{ route('email') }}">Envoyer Email</a>
             @endif
 
             <!-- Logout for both user and admin -->

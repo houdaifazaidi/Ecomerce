@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Article as Produit;
 use App\Http\Requests\AddProductRequest;
 use Cloudinary\Cloudinary;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 class RProduitController extends Controller
 
@@ -139,5 +141,20 @@ class RProduitController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Erreur lors de la suppression: ' . $e->getMessage()]);
         }
+    }
+    public function email()
+    {
+        return view('email');
+    } 
+    public function sendEmail(Request $request)
+    {
+        $data = [
+        'recipient_email' => $request->input('recipient_email'),
+        'subject' => $request->input('subject'),
+        'message' => $request->input('message'),
+        ];
+        // Envoyer l'e-mail en utilisant la classe Mailable
+        Mail::to($data['recipient_email'])->send(new TestMail($data));
+        return back()->with('success','Email sent successfully!');
     }
 }

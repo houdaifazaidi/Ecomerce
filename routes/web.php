@@ -32,6 +32,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/articles/{id}/edit', [RProduitController::class, 'edit'])->name('articles.edit');
     Route::put('/articles/{id}', [RProduitController::class, 'update'])->name('articles.update');
     Route::delete('/articles/{id}', [RProduitController::class, 'destroy'])->name('articles.destroy');
+    Route::get('/email', [RProduitController::class,'email'])->name('email');
 });
 
 // Product Show Route (available to all)
@@ -40,3 +41,6 @@ Route::get('/articles/{id}', [RProduitController::class, 'show'])->name('article
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::post('/send/email', [RProduitController::class, 'sendEmail'])->name('send.email');
