@@ -15,7 +15,8 @@ class RProduitController extends Controller
      */
     public function index()
     {
-        //
+        $products = Produit::paginate(50);
+        return view('gestionproduits', ['products' => $products]);
     }
 
     /**

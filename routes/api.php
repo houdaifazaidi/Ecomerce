@@ -8,5 +8,5 @@ use App\Http\Controllers\Api\ProduitControllerApi;
 
 
 
-Route::apiResource('articles', ProduitControllerApi::class);
+Route::apiResource('produits', ProduitControllerApi::class);
 Route::get('/filter', [ProduitControllerApi::class, 'filtrer']);

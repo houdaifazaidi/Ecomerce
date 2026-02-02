@@ -27,4 +27,12 @@ class ProduitController extends Controller
         'products' => $products
     ]);
 }
+
+public function espaceclient(){
+    $products = Produit::where('solde', '>', 0)->paginate(6);
+    
+    return view('espaceclient', [
+        'products' => $products
+    ]);
+}
 }

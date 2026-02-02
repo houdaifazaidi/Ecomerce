@@ -30,6 +30,7 @@
         .menu-links {
             display: flex;
             gap: 30px;
+            align-items: center;
         }
 
         .menu-links a {
@@ -58,6 +59,58 @@
         .menu-links a:hover::after {
             width: 100%;
         }
+
+        .auth-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-form button {
+            background: none;
+            border: none;
+            color: #001f3f;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .logout-form button:hover {
+            color: #7a8fa0;
+        }
+
+        .user-welcome {
+            color: #001f3f;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .admin-badge {
+            background-color: #dc3545;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .user-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
     </style>
 
     <a href="{{ url('/') }}" class="logo-container">
@@ -68,8 +121,42 @@
         <a href="{{ url('/') }}">Accueil</a>
         <a href="{{ url('/produits/fournitures') }}">Fournitures</a>
         <a href="{{ url('/produits/mobilier') }}">Mobilier</a>
-        <a href="{{ route('articles.create') }}">Ajouter produit</a>
         <a href="{{ url('/a-propos') }}">À Propos</a>
         <a href="{{ url('/contact') }}">Contact</a>
+
+        <!-- Authenticated Users -->
+        @auth
+            <!-- User-only Links -->
+            @if (Auth::user()->role === 'user')
+                <a href="{{ route('espaceclient') }}">Espace Client</a>
+            @endif
+
+            <!-- Admin-only Links -->
+            @if (Auth::user()->role === 'admin')
+                <a href="{{ route('articles.create') }}">Ajouter Produit</a>
+                <a href="{{ route('articles.index') }}">Gestion Produits</a>
+            @endif
+
+            <!-- Logout for both user and admin -->
+            <span class="user-welcome">
+                {{ Auth::user()->name }}
+                @if (Auth::user()->role === 'admin')
+                    <span class="admin-badge">Admin</span>
+                @elseif (Auth::user()->role === 'user')
+                    <span class="user-badge">Client</span>
+                @endif
+            </span>
+
+            <form method="POST" action="{{ route('logout') }}" class="logout-form">
+                @csrf
+                <button type="submit">Déconnexion</button>
+            </form>
+        @endauth
+
+        <!-- Visitors (not authenticated) -->
+        @guest
+            <a href="{{ route('login') }}">Connexion</a>
+            <a href="{{ route('register') }}">Inscription</a>
+        @endguest
     </nav>
 </header>

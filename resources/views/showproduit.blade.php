@@ -49,6 +49,7 @@
                 width: auto;
                 height: auto;
                 object-fit: contain;
+                object-position: center;
                 border-radius: 8px;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             }
@@ -142,7 +143,7 @@
                 background-color: #5a6268;
             }
 
-            /* Custom Confirmation Modal */
+            /* Delete Modal */
             .delete-modal {
                 display: none;
                 position: fixed;
@@ -239,7 +240,7 @@
 
             @keyframes slideUp {
                 from {
-                    transform: translateY(50px);
+                    transform: translateY(30px);
                     opacity: 0;
                 }
                 to {
@@ -271,7 +272,7 @@
             }
         </style>
 
-        <a href="/" class="back-link">← Retour aux produits</a>
+        <a href="{{ isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/' }}" class="back-link">← Retour</a>
 
         <div class="product-detail-container">
             <div class="product-image-wrapper">
@@ -291,63 +292,59 @@
                 <p class="description">{{ $product->description ?? 'Aucune description disponible.' }}</p>
 
                 <div class="detail-actions">
-                    <a href="{{ route('articles.edit', $product->id) }}" class="btn btn-edit">
-                        Modifier
-                    </a>
-                    <form id="deleteForm" action="{{ route('articles.destroy', $product->id) }}" method="POST" style="flex: 1;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="btn btn-delete" style="width: 100%;" onclick="showDeleteModal(event);">
-                            Supprimer
-                        </button>
-                    </form>
-                    <a href="/" class="btn btn-back">
+                    @auth
+                        @if (Auth::user()->role === 'admin')
+                            <a href="{{ route('articles.edit', $product->id) }}" class="btn btn-edit">
+                                Modifier
+                            </a>
+                            <button type="button" class="btn btn-delete" onclick="openDeleteModal({{ $product->id }}, '{{ $product->nom }}')">
+                                Supprimer
+                            </button>
+                        @endif
+                    @endauth
+                    <a href="{{ isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/' }}" class="btn btn-back">
                         Retour
                     </a>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Custom Delete Confirmation Modal -->
-        <div id="deleteConfirmModal" class="delete-modal">
-            <div class="modal-content">
-                <div class="modal-icon">⚠️</div>
-                <div class="modal-title">Confirmer la suppression</div>
-                <div class="modal-text">
-                    Êtes-vous sûr de vouloir supprimer ce produit? Cette action est irréversible.
-                </div>
-                <div class="modal-actions">
-                    <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal();">
-                        Annuler
-                    </button>
-                    <button class="modal-btn modal-btn-confirm" onclick="confirmDelete();">
-                        Supprimer
-                    </button>
-                </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="delete-modal">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <div class="modal-title">Supprimer le Produit</div>
+            <div class="modal-text">
+                Êtes-vous sûr de vouloir supprimer <strong id="productName"></strong> ? Cette action est irréversible.
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Annuler</button>
+                <form id="deleteForm" method="POST" style="flex: 1;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="modal-btn modal-btn-confirm" style="width: 100%;">Confirmer la Suppression</button>
+                </form>
             </div>
         </div>
+    </div>
 
-        <script>
-            function showDeleteModal(event) {
-                event.preventDefault();
-                document.getElementById('deleteConfirmModal').classList.add('show');
-            }
+    <script>
+        function openDeleteModal(productId, productName) {
+            document.getElementById('productName').textContent = productName;
+            document.getElementById('deleteForm').action = `/articles/${productId}`;
+            document.getElementById('deleteModal').classList.add('show');
+        }
 
-            function closeDeleteModal() {
-                document.getElementById('deleteConfirmModal').classList.remove('show');
-            }
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+        }
 
-            function confirmDelete() {
-                document.getElementById('deleteForm').submit();
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target === modal) {
+                modal.classList.remove('show');
             }
-
-            // Close modal when clicking outside
-            window.onclick = function(event) {
-                const modal = document.getElementById('deleteConfirmModal');
-                if (event.target === modal) {
-                    closeDeleteModal();
-                }
-            }
-        </script>
-    </section>
+        }
+    </script>
 @endsection
