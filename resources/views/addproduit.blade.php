@@ -117,9 +117,7 @@
 <div class="form-container">
     <h1>{{ __('Ajouter un nouveau produit') }}</h1>
 
-    <div class="flash-message">
-        @include('incs.flash')
-    </div>
+
 
     <form method="POST" action="/articles" enctype="multipart/form-data" novalidate>
         @csrf

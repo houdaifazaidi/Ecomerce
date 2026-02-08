@@ -111,18 +111,122 @@
             font-weight: 600;
             margin-left: 5px;
         }
+    /* Mobile Menu Styles */
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 21px;
+        cursor: pointer;
+        z-index: 1001; /* Above mobile menu */
+    }
+
+    .menu-toggle span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background-color: #001f3f;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+
+    /* Mobile specific styles */
+    @media (max-width: 900px) {
+        .navbar {
+            position: relative;
+            z-index: 1000;
+        }
+
+        .menu-toggle {
+            display: flex; /* Show hamburger */
+        }
+
+        .menu-links {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 0; /* Remove gap, use padding on links */
+        }
+
+        .menu-links.active {
+            max-height: 600px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #001f3f;
+        }
+
+        .menu-links a {
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .menu-links a:hover, 
+        .logout-form button:hover {
+            background-color: #f8f9fa;
+        }
+
+        .auth-links {
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+
+        /* Mobile styling for non-link items */
+        .user-welcome {
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f1f1;
+            display: block;
+        }
+
+        .logout-form {
+            width: 100%;
+        }
+
+        .logout-form button {
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f1f1;
+            display: block;
+            font-size: 14px; /* Maintain consistency */
+        }
+    }
     </style>
 
     <a href="{{ url('/') }}" class="logo-container">
         <img src="{{ asset('imgs/logo.png') }}" alt="APEX Logo" class="logo-img">
     </a>
 
-    <nav class="menu-links">
+    <!-- Hamburger Icon -->
+    <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <nav class="menu-links" id="menuLinks">
         <a href="{{ url('/') }}">Accueil</a>
         <a href="{{ url('/produits/fournitures') }}">Fournitures</a>
         <a href="{{ url('/produits/mobilier') }}">Mobilier</a>
         <a href="{{ url('/a-propos') }}">À Propos</a>
         <a href="{{ url('/contact') }}">Contact</a>
+
+        <a href="{{ route('cart') }}" style="display: flex; align-items: center; gap: 5px;">
+            🛒 <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span>
+        </a>
 
         <!-- Authenticated Users -->
         @auth
@@ -160,4 +264,11 @@
             <a href="{{ route('register') }}">Inscription</a>
         @endguest
     </nav>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuLinks');
+            menu.classList.toggle('active');
+        }
+    </script>
 </header>

@@ -152,6 +152,17 @@
         color: #ccc;
         cursor: not-allowed;
     }
+
+    @media (max-width: 768px) {
+        .produits-section h1 {
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .products-container {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
 </style>
 
 <div class="produits-section">

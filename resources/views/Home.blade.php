@@ -214,6 +214,20 @@
             color: #ccc;
             cursor: not-allowed;
         }
+
+        @media (max-width: 768px) {
+            .home {
+                padding: 20px;
+            }
+
+            .home h1 {
+                font-size: 32px;
+            }
+
+            .products-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
     </style>
 
     <h1>APEX</h1>

@@ -250,6 +250,10 @@
             }
 
             @media (max-width: 768px) {
+                .product-detail {
+                    padding: 20px;
+                }
+                
                 .product-detail-container {
                     grid-template-columns: 1fr;
                 }
@@ -301,6 +305,15 @@
                                 Supprimer
                             </button>
                         @endif
+                    @endauth
+                    @auth
+                        <a href="{{ route('add_to_cart', $product->id) }}" class="btn" style="background-color: #28a745; color: white;">
+                            Ajouter au panier
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn" style="background-color: #28a745; color: white;">
+                            Se connecter pour acheter
+                        </a>
                     @endauth
                     <a href="{{ isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/' }}" class="btn btn-back">
                         Retour

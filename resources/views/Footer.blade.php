@@ -21,6 +21,12 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 30px 4%;
+            }
+        }
     </style>
 
     <p>

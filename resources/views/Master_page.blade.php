@@ -25,6 +25,12 @@
             padding: 40px 8%;
         }
 
+        @media (max-width: 768px) {
+            main {
+                padding: 20px 4%;
+            }
+        }
+
         h1 {
             margin-bottom: 20px;
             color: #001f3f;
