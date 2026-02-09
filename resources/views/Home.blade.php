@@ -1,10 +1,42 @@
 @extends('Master_page')
 
-@section('title', 'APEX - Matériel de Bureau et Fournitures')
+@section('title', __('home.title'))
 
 @section('content')
 <section class="home">
     <style>
+        /* Language Switcher Styles */
+        .language-switcher {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .language-switcher a {
+            padding: 8px 16px;
+            border: 2px solid #e0e6ed;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #001f3f;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .language-switcher a:hover {
+            background: #001f3f;
+            color: #ffffff;
+            border-color: #001f3f;
+        }
+
+        .language-switcher a.active {
+            background: #001f3f;
+            color: #ffffff;
+            border-color: #001f3f;
+        }
+
         .home {
             background: #ffffff;
             padding: 50px;
@@ -230,27 +262,43 @@
         }
     </style>
 
-    <h1>APEX</h1>
-    <h2>Matériel de Bureau et Fournitures</h2>
-    <p>Découvrez notre sélection complète d'équipements de bureau et de fournitures de qualité</p>
+    {{-- Language Switcher --}}
+    <div class="language-switcher">
+        <a href="{{ route('language.switch', 'en') }}" 
+           class="{{ app()->getLocale() == 'en' ? 'active' : '' }}">
+            English
+        </a>
+        <a href="{{ route('language.switch', 'fr') }}" 
+           class="{{ app()->getLocale() == 'fr' ? 'active' : '' }}">
+            Français
+        </a>
+        <a href="{{ route('language.switch', 'ar') }}" 
+           class="{{ app()->getLocale() == 'ar' ? 'active' : '' }}">
+            العربية
+        </a>
+    </div>
+
+    <h1>{{ __('home.main_heading') }}</h1>
+    <h2>{{ __('home.subtitle') }}</h2>
+    <p>{{ __('home.description') }}</p>
 
     <div class="categories">
         <a href="{{ url('/produits/fournitures') }}" class="card">
             <span>✏️</span>
-            <h2>Fournitures</h2>
-            <p>Stylos, cahiers, agendas et accessoires</p>
+            <h2>{{ __('home.categories.supplies.title') }}</h2>
+            <p>{{ __('home.categories.supplies.description') }}</p>
         </a>
 
         <a href="{{ url('/produits/mobilier') }}" class="card">
             <span>🪑</span>
-            <h2>Mobilier</h2>
-            <p>Bureaux, chaises et rangements</p>
+            <h2>{{ __('home.categories.furniture.title') }}</h2>
+            <p>{{ __('home.categories.furniture.description') }}</p>
         </a>
     </div>
 
     @if (count($products) > 0)
         <div class="products-section">
-            <h3>Tous nos Produits</h3>
+            <h3>{{ __('home.all_products') }}</h3>
             <div class="products-container">
                 @foreach ($products as $product)
                     <div class="product-card">
@@ -258,12 +306,12 @@
                         <div class="product-info">
                             <h3>{{ $product->nom }}</h3>
                             <p>{{ $product->description ?? '' }}</p>
-                            <div class="product-price">{{ $product->prix }} DH</div>
+                            <div class="product-price">{{ $product->prix }} {{ __('home.price_currency') }}</div>
                             
                             <!-- Action Buttons -->
                             <div class="product-actions">
                                 <a href="{{ route('articles.show', $product->id) }}" class="btn btn-view">
-                                    Voir
+                                    {{ __('home.view_button') }}
                                 </a>
                             </div>
                         </div>

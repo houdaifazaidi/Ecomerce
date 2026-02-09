@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
+use App\Http\Middleware\SetLocale;  // Add this import
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -22,6 +23,11 @@ return Application::configure(basePath: dirname(__DIR__))
         Request::HEADER_X_FORWARDED_PORT |
         Request::HEADER_X_FORWARDED_PROTO
         );
+        
+        // Add SetLocale to web middleware group
+        $middleware->web(append: [
+            SetLocale::class,
+        ]);
         
         $middleware->alias([
             'admin' => AdminMiddleware::class,

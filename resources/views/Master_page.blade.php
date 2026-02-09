@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'MyShop')</title>
-
+    @if(app()->getLocale() == 'ar')
+        <style>
+            body {
+                direction: rtl;
+                text-align: right;
+            }
+            .language-switcher {
+                justify-content: flex-start !important;
+            }
+        </style>
+    @endif
     <style>
         * {
             margin: 0;

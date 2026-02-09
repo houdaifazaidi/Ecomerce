@@ -52,3 +52,6 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('update-cart', [App\Http\Controllers\CartController::class, 'updateCart'])->name('update_cart');
     Route::delete('remove-from-cart', [App\Http\Controllers\CartController::class, 'removeFromCart'])->name('remove_from_cart');
 });
+
+// Language Switcher Route
+Route::get('/language/{locale}', [App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
